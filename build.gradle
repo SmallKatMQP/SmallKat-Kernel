@@ -1,10 +1,16 @@
+
+
 plugins {
     id 'groovy'
     id 'java'
 }
 
+// -----------------------
+
 group 'edu.wpi.smallkat'
 version '1.0.1'
+
+// -----------------------
 
 sourceCompatibility = 1.8
 
@@ -15,9 +21,14 @@ repositories {
     }
 }
 
+
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
-    compile 'us.ihmc.ihmc-build:0.15.4'
+    compile group: "us.ihmc", name: "euclid", version: "0.8.2"
+    compile group: "us.ihmc", name: "simulation-construction-set", version: "0.12.0"
+    compile group: "us.ihmc", name: "simulation-construction-set-tools", version: "0.11.0-dynamic-walking-conference-2018"
+    compile group: "us.ihmc", name: "ihmc-simulation-toolkit", version: "0.11.0-dynamic-walking-conference-2018"
+    compile group: "us.ihmc", name: "ihmc-common-walking-control-modules", version: "0.11.0-dynamic-walking-conference-2018"
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'junit:junit:4.12'
 }
