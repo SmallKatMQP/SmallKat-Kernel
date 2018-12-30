@@ -11,7 +11,7 @@ public class KatSimulation {
 
     public KatSimulation(){
 
-        Kat_XL robot = new Kat_XL("Kat_XL");
+        Kat_XL robot = new Kat_XL();
 
         SimulationConstructionSetParameters parameters = new SimulationConstructionSetParameters();
         parameters.setDataBufferSize(32000);
