@@ -1,4 +1,4 @@
 package org.smallkat;
 
-public interface Head {
+public class Head {
 }

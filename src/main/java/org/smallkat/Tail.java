@@ -1,4 +1,6 @@
 package org.smallkat;
 
-public interface Tail {
+public class Tail {
+
+
 }

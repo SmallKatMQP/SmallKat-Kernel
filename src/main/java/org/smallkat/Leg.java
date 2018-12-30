@@ -1,4 +1,12 @@
 package org.smallkat;
 
-public interface Leg {
+
+public class Leg extends Appendage{
+
+    public Leg(float d, float r, float alpha, float theta){
+        super(d, r, theta, alpha);
+
+
+    }
+
 }

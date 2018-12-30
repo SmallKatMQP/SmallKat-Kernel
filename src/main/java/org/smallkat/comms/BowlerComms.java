@@ -1,4 +1,4 @@
-package org.smallkat;
+package org.smallkat.comms;
 
 public interface BowlerComms {
 }

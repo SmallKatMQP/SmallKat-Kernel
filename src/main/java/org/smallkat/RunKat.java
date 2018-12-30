@@ -1,6 +1,6 @@
 package org.smallkat;
 
-public interface RunKat {
+public class RunKat {
 
 
 }

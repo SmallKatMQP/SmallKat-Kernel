@@ -1,4 +1,7 @@
 package org.smallkat;
 
-public interface Kat {
+import java.util.ArrayList;
+
+public class Kat {
+
 }
