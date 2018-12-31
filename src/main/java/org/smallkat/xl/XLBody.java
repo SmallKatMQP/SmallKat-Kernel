@@ -9,12 +9,13 @@ import us.ihmc.simulationconstructionset.Link;
 import us.ihmc.simulationconstructionset.Robot;
 
 public class XLBody {
+    boolean debug = true;
 
     public static final String BODY_NAME = "Body";
 
-    public static final double BODY_WIDTH = 0.15;
-    public static final double BODY_HEIGHT = 0.1;
-    public static final double BODY_LENGTH = 0.5;
+    public static final double BODY_WIDTH = 0.07652;
+    public static final double BODY_HEIGHT = 0.05;
+    public static final double BODY_LENGTH = 0.23;
 
     public static final double BODY_MASS = 3; //in kg
     public static final Vector3DReadOnly BODY_COM = new Vector3D(0.0, 0.0, 0.0);
@@ -43,6 +44,9 @@ public class XLBody {
         link.setMomentOfInertia(BODY_INTERTIA.getX(), BODY_INTERTIA.getY(), BODY_INTERTIA.getZ());
 
         Graphics3DObject linkGraphics = new Graphics3DObject();
+        if (debug) {
+            linkGraphics.addCoordinateSystem(0.3);
+        }
         linkGraphics.addCube(BODY_LENGTH, BODY_WIDTH, BODY_HEIGHT, YoAppearance.Green());
 
         link.setLinkGraphics(linkGraphics);

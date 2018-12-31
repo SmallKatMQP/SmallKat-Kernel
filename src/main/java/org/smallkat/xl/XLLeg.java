@@ -27,7 +27,7 @@ public class XLLeg extends Appendage implements Leg {
     public static final String FOOT_LINKNAME = "Foot";
     public static final String FOOT_JOINTNAME = "Ankle";
 
-    private Vector3D legPosition = new Vector3D(0.0, 0.0, 0.0);
+    private Vector3D legPosition = new Vector3D(0, 0, 0);
 
     private DHParameters topLegRollDH = new DHParameters(0, 0, 0, 0);
     private DHParameters topLegPitchDH = new DHParameters(0.3, 0, 0, 0);
@@ -47,38 +47,41 @@ public class XLLeg extends Appendage implements Leg {
     private String name;
     private String shortname;
     private Robot robot;
+    private boolean debug;
 
     // Constructors
 
-    public XLLeg(String name, String shortname, Robot robot){
+    public XLLeg(String name, String shortname, Robot robot, boolean debug){
         this.name = name;
         this.shortname = shortname;
         this.robot = robot;
+        this.debug = debug;
     }
 
     // Leg Generating Methods
-    void generateLeg(){
+    public void generateLeg(){
         appendageSections.add(makeTopLeg());
     }
 
     private AppendageSection makeTopLeg(){
 
         Joint shoulder = new UniversalJoint(makeShortName(TOPLEG_PITCH_JOINTNAME), makeShortName(TOPLEG_ROLL_JOINTNAME),
-                legPosition, robot, Axis.Z, Axis.X);
-        //TODO: Add correct location above
+                legPosition, robot, Axis.X, Axis.Y);
         Link topLeg = new Link(makeShortName(TOPLEG_LINKNAME));
+        shoulder.setLink(topLeg);
 
         topLeg.setMass(topLegMass);
         topLeg.setMomentOfInertia(topLegInertia.getX(), topLegInertia.getY(), topLegInertia.getZ());
 
         Graphics3DObject linkGraphics = new Graphics3DObject();
+//        linkGraphics.translate();
+        linkGraphics.addCoordinateSystem(coordinateLength);
         linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
-        linkGraphics.translate(0.0, 0.0, 0.0);
-        linkGraphics.addCylinder(topLegPitchDH.distance, DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
-        linkGraphics.translate(0.0, 0.0, topLegPitchDH.radius);
+        linkGraphics.addCylinder(-topLegPitchDH.distance, DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
+//        linkGraphics.translate(0.0, 0.0, topLegPitchDH.radius);
 
         topLeg.setLinkGraphics(linkGraphics);
-        shoulder.setLink(topLeg);
+
 
         return new AppendageSection(shoulder, topLeg);
     }

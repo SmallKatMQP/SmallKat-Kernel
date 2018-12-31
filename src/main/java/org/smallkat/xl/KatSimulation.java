@@ -19,8 +19,8 @@ public class KatSimulation {
         sim = new SimulationConstructionSet(robot, parameters);
         sim.setDT(DT, 20);
         sim.setGroundVisible(true);
-        sim.setCameraPosition(0, -9.0, 0.6);
-        sim.setCameraFix(0.0, 0.0, 0.70);
+//        sim.setCameraPosition(0, -5.0, 0.6);
+//        sim.setCameraFix(0.0, 0.0, 0.70);
 
         sim.setSimulateDuration(60);
 

@@ -8,11 +8,8 @@ public class XLFrontLeg extends XLLeg {
 
 
     public XLFrontLeg(String name, String shortname, Robot robot){
-        super(name, shortname, robot);
-
-        this.setLegPosition(new Vector3D(0.0, 0.0, 0.0));
-
-        generateLeg();
+        super(name, shortname, robot, true);
+//        generateLeg();
     }
 
     public XLFrontLeg(String name, Robot robot){
