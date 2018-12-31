@@ -41,14 +41,15 @@ public class Kat_XL extends Robot {
 
         body = new XLBody(bodyPos, this);
         this.addRootJoint(body.getJoint());
+        frontLeftLeg = new XLLeg("FrontLeft", frontLeftLegPos, this);
+        frontRightLeg = new XLLeg("FrontRight", frontRightLegPos, this);
+        backLeftLeg = new XLLeg("BackLeft", backLeftLegPos, this);
+        backRightLeg = new XLLeg("BackRight", backRightLegPos, this);
 
-        frontLeftLeg = new XLFrontLeg("FrontLeft", frontLeftLegPos, this);
         body.getJoint().addJoint(frontLeftLeg.getFirstJoint());
-
-//        frontRightLeg = new XLFrontLeg();
-//        backLeftLeg = new XLBackLeg();
-//        backRightLeg = new XLBackLeg();
-
+        body.getJoint().addJoint(frontRightLeg.getFirstJoint());
+        body.getJoint().addJoint(backLeftLeg.getFirstJoint());
+        body.getJoint().addJoint(backRightLeg.getFirstJoint());
 
     }
 

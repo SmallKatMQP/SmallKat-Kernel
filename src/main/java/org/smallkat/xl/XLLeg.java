@@ -30,7 +30,7 @@ public class XLLeg extends Appendage implements Leg {
     private Vector3D legPosition = new Vector3D(0, 0, 0);
 
     private DHParameters topLegRollDH = new DHParameters(0, 0, 0, 0);
-    private DHParameters topLegPitchDH = new DHParameters(0.3, 0, 0, 0);
+    private DHParameters topLegPitchDH = new DHParameters(0.092, 0, 0, 0);
     private DHParameters midLegDH = new DHParameters(0.3, 0, 0, 0);
     private DHParameters footDH = new DHParameters(0.3, 0, 0, 0);
 
@@ -50,10 +50,11 @@ public class XLLeg extends Appendage implements Leg {
 
     // Constructors
 
-    public XLLeg(String name, Robot robot, Vector3D legPos){
+    public XLLeg(String name, Vector3D legPos, Robot robot){
         this.name = name;
         this.robot = robot;
         this.legPosition = legPos;
+        generateLeg();
     }
 
     // Leg Generating Methods
