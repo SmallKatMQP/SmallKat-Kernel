@@ -24,16 +24,16 @@ public class XLBody {
     protected Link bodyLink;
     protected FloatingJoint bodyJoint;
 
-    public XLBody(double pos_x, double pos_y, double pos_z, Robot robot){
-        bodyJoint = generateBodyJoint(pos_x, pos_y, pos_z, robot);
+    public XLBody(Vector3D bodyPos, Robot robot){
+        bodyJoint = generateBodyJoint(bodyPos, robot);
         bodyLink = generatBodyLink();
 
         bodyJoint.setLink(bodyLink);
     }
 
-    private FloatingJoint generateBodyJoint(double pos_x, double pos_y, double pos_z, Robot robot){
+    private FloatingJoint generateBodyJoint(Vector3D position, Robot robot){
         FloatingJoint joint = new FloatingJoint(BODY_NAME, new Vector3D(), robot);
-        joint.setPosition(pos_x, pos_y, pos_z);
+        joint.setPosition(position);
         return joint;
     }
 

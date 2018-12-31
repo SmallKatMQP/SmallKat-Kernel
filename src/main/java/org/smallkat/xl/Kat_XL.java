@@ -20,14 +20,11 @@ public class Kat_XL extends Robot {
     Leg backLeftLeg;
     Leg backRightLeg;
 
+    private static final Vector3D bodyPos = new Vector3D(0, 0, 0.5);
     private static final Vector3D frontLeftLegPos = new Vector3D(0.115, 0.03826, 0.0);
     private static final Vector3D frontRightLegPos = new Vector3D(0.115, -0.03826, 0.0);
     private static final Vector3D backLeftLegPos = new Vector3D(-0.115, 0.03826, 0.0);
     private static final Vector3D backRightLegPos = new Vector3D(-0.115, -0.03826, 0.0);
-
-    private static final double BODY_POS_X = 0;
-    private static final double BODY_POS_Y = 0;
-    private static final double BODY_POS_Z = 0.5;
 
 
     public Kat_XL(RobotDefinitionFixedFrame definition, String name) {
@@ -42,13 +39,11 @@ public class Kat_XL extends Robot {
     public Kat_XL() {
         super(ROOBOT_NAME);
 
-        body = new XLBody(BODY_POS_X, BODY_POS_Y, BODY_POS_Z, this);
+        body = new XLBody(bodyPos, this);
         this.addRootJoint(body.getJoint());
 
-        frontLeftLeg = new XLFrontLeg("FrontLeft", "FL", this);
-        frontLeftLeg.setLegPosition(frontLeftLegPos);
-        frontLeftLeg.generateLeg();
-        body.getJoint().addJoint(frontLeftLeg.getAppendageSections().get(0).getJoint());
+        frontLeftLeg = new XLFrontLeg("FrontLeft", frontLeftLegPos, this);
+        body.getJoint().addJoint(frontLeftLeg.getFirstJoint());
 
 //        frontRightLeg = new XLFrontLeg();
 //        backLeftLeg = new XLBackLeg();

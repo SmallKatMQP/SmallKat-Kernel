@@ -45,21 +45,19 @@ public class XLLeg extends Appendage implements Leg {
     private Vector3D footInertia = new Vector3D(0.019 * footMass, 0.019 * footMass, 0.017 * footMass);
 
     private String name;
-    private String shortname;
     private Robot robot;
-    private boolean debug;
+    private boolean debug = true;
 
     // Constructors
 
-    public XLLeg(String name, String shortname, Robot robot, boolean debug){
+    public XLLeg(String name, Robot robot, Vector3D legPos){
         this.name = name;
-        this.shortname = shortname;
         this.robot = robot;
-        this.debug = debug;
+        this.legPosition = legPos;
     }
 
     // Leg Generating Methods
-    public void generateLeg(){
+    void generateLeg(){
         appendageSections.add(makeTopLeg());
     }
 
@@ -89,6 +87,10 @@ public class XLLeg extends Appendage implements Leg {
 
 
     // Getters/Setters and Basic Functions
+
+    public Joint getFirstJoint(){
+        return appendageSections.get(0).getJoint();
+    }
 
     public ArrayList<AppendageSection> getAppendageSections(){
         return super.getAppendageSections();
@@ -135,6 +137,6 @@ public class XLLeg extends Appendage implements Leg {
     }
 
     private String makeShortName(String partName){
-        return shortname + "_" + partName;
+        return name + "_" + partName;
     }
 }

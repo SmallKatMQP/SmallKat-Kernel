@@ -1,18 +1,14 @@
 package org.smallkat.xl;
 
-import org.smallkat.Appendage;
-import org.smallkat.Leg;
+import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.simulationconstructionset.Robot;
 
 public class XLBackLeg extends XLLeg {
 
-    public XLBackLeg(String name, String shortname, Robot robot){
-        super(name, shortname, robot, true);
-//        generateLeg();
+    public XLBackLeg(String name, Vector3D legPos, Robot robot){
+        super(name, robot, legPos);
+        super.generateLeg();
     }
 
-    public XLBackLeg(String name, Robot robot){
-        this(name, name, robot);
-    }
 
 }
