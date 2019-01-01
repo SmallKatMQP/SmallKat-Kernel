@@ -45,7 +45,7 @@ public class Kat_XL extends Robot {
         frontRightLeg = new XLLeg("FrontRight", frontRightLegPos, this);
         backLeftLeg = new XLLeg("BackLeft", backLeftLegPos, this);
         backRightLeg = new XLLeg("BackRight", backRightLegPos, this);
-
+        // TODO: Add this in the the Legs by passing the body into each Leg object
         body.getJoint().addJoint(frontLeftLeg.getFirstJoint());
         body.getJoint().addJoint(frontRightLeg.getFirstJoint());
         body.getJoint().addJoint(backLeftLeg.getFirstJoint());

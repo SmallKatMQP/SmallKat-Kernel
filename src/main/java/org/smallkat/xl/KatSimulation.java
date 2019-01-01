@@ -22,7 +22,7 @@ public class KatSimulation {
 //        sim.setCameraPosition(0, -5.0, 0.6);
 //        sim.setCameraFix(0.0, 0.0, 0.70);
 
-        sim.setSimulateDuration(60);
+        sim.setSimulateDuration(5);
 
         Thread myThread = new Thread(sim);
 

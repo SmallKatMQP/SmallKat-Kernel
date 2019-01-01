@@ -7,10 +7,7 @@ import org.smallkat.Leg;
 import us.ihmc.euclid.Axis;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.graphicsDescription.Graphics3DObject;
-import us.ihmc.simulationconstructionset.Joint;
-import us.ihmc.simulationconstructionset.Link;
-import us.ihmc.simulationconstructionset.Robot;
-import us.ihmc.simulationconstructionset.UniversalJoint;
+import us.ihmc.simulationconstructionset.*;
 
 import java.util.ArrayList;
 
@@ -31,8 +28,8 @@ public class XLLeg extends Appendage implements Leg {
 
     private DHParameters topLegRollDH = new DHParameters(0, 0, 0, 0);
     private DHParameters topLegPitchDH = new DHParameters(0.092, 0, 0, 0);
-    private DHParameters midLegDH = new DHParameters(0.3, 0, 0, 0);
-    private DHParameters footDH = new DHParameters(0.3, 0, 0, 0);
+    private DHParameters midLegDH = new DHParameters(0.075, 0, 0, 0);
+    private DHParameters footDH = new DHParameters(0.09464, 0, 0, 0);
 
     // Masses
     private double topLegMass = 0.33;
@@ -46,7 +43,6 @@ public class XLLeg extends Appendage implements Leg {
 
     private String name;
     private Robot robot;
-    private boolean debug = true;
 
     // Constructors
 
@@ -59,32 +55,82 @@ public class XLLeg extends Appendage implements Leg {
 
     // Leg Generating Methods
     void generateLeg(){
-        appendageSections.add(makeTopLeg());
+        appendageSections.add(makeTopLeg(false));
+        appendageSections.add(makeMidLeg(false));
+        appendageSections.add(makeFoot(true));
+        attachLegs();
     }
 
-    private AppendageSection makeTopLeg(){
+    void attachLegs(){
+        for(int i = 1; i < appendageSections.size(); i++){
+            appendageSections.get(i-1).getJoint().addJoint(appendageSections.get(i).getJoint());
+        }
+    }
 
-        Joint shoulder = new UniversalJoint(makeShortName(TOPLEG_PITCH_JOINTNAME), makeShortName(TOPLEG_ROLL_JOINTNAME),
+    private AppendageSection makeTopLeg(boolean debug){
+
+        Joint shoulder = new UniversalJoint(makeName(TOPLEG_PITCH_JOINTNAME), makeName(TOPLEG_ROLL_JOINTNAME),
                 legPosition, robot, Axis.X, Axis.Y);
-        Link topLeg = new Link(makeShortName(TOPLEG_LINKNAME));
+        Link topLeg = new Link(makeName(TOPLEG_LINKNAME));
         shoulder.setLink(topLeg);
 
         topLeg.setMass(topLegMass);
         topLeg.setMomentOfInertia(topLegInertia.getX(), topLegInertia.getY(), topLegInertia.getZ());
 
         Graphics3DObject linkGraphics = new Graphics3DObject();
-//        linkGraphics.translate();
-        linkGraphics.addCoordinateSystem(coordinateLength);
+        if (debug){
+            linkGraphics.addCoordinateSystem(coordinateLength);
+        }
         linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
         linkGraphics.addCylinder(-topLegPitchDH.distance, DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
-//        linkGraphics.translate(0.0, 0.0, topLegPitchDH.radius);
-
         topLeg.setLinkGraphics(linkGraphics);
-
 
         return new AppendageSection(shoulder, topLeg);
     }
 
+    private AppendageSection makeMidLeg(boolean debug){
+        Joint knee = new PinJoint(makeName(MIDLEG_JOINTNAME), new Vector3D(0, 0, -topLegPitchDH.distance), robot, Axis.Y);
+        Link midLeg = new Link(makeName(MIDLEG_LINKNAME));
+        knee.setLink(midLeg);
+
+        midLeg.setMass(midLegMass);
+        midLeg.setMomentOfInertia(midLegInertia.getX(), midLegInertia.getY(), midLegInertia.getZ());
+
+        Graphics3DObject linkGraphics = new Graphics3DObject();
+        if (debug){
+            linkGraphics.addCoordinateSystem(coordinateLength);
+        }
+        linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
+        linkGraphics.addCylinder(-midLegDH.distance, DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
+        midLeg.setLinkGraphics(linkGraphics);
+
+        return new AppendageSection(knee, midLeg);
+    }
+
+    private AppendageSection makeFoot(boolean debug){
+        Joint ankle = new PinJoint(makeName(FOOT_JOINTNAME), new Vector3D(0, 0, -midLegDH.distance), robot, Axis.Y);
+        Link foot = new Link(makeName(FOOT_LINKNAME));
+        ankle.setLink(foot);
+
+        foot.setMass(footMass);
+        foot.setMomentOfInertia(footInertia.getX(), footInertia.getY(), footInertia.getZ());
+
+        Graphics3DObject linkGraphics = new Graphics3DObject();
+
+        linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
+        if (debug){
+            linkGraphics.addCoordinateSystem(coordinateLength);
+        }
+        linkGraphics.addCylinder(-midLegDH.distance, DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
+        linkGraphics.translate(0, 0, -footDH.distance);
+        linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
+        if (debug){
+            linkGraphics.addCoordinateSystem(coordinateLength);
+        }
+        foot.setLinkGraphics(linkGraphics);
+
+        return new AppendageSection(ankle, foot);
+    }
 
 
     // Getters/Setters and Basic Functions
@@ -95,14 +141,6 @@ public class XLLeg extends Appendage implements Leg {
 
     public ArrayList<AppendageSection> getAppendageSections(){
         return super.getAppendageSections();
-    }
-
-    public Vector3D getLegPosition() {
-        return legPosition;
-    }
-
-    public void setLegPosition(Vector3D legPosition) {
-        this.legPosition = legPosition;
     }
 
     public DHParameters getTopLegRollDH() {
@@ -137,7 +175,7 @@ public class XLLeg extends Appendage implements Leg {
         this.footDH = footDH;
     }
 
-    private String makeShortName(String partName){
+    private String makeName(String partName){
         return name + "_" + partName;
     }
 }
