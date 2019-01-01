@@ -1,5 +1,6 @@
 package org.smallkat.xl;
 
+import org.smallkat.Body;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.euclid.tuple3D.interfaces.Vector3DReadOnly;
 import us.ihmc.graphicsDescription.Graphics3DObject;
@@ -8,7 +9,7 @@ import us.ihmc.simulationconstructionset.FloatingJoint;
 import us.ihmc.simulationconstructionset.Link;
 import us.ihmc.simulationconstructionset.Robot;
 
-public class XLBody {
+public class XLBody implements Body {
     boolean debug = true;
 
     public static final String BODY_NAME = "Body";
@@ -53,7 +54,7 @@ public class XLBody {
         return link;
     }
 
-    public FloatingJoint getJoint(){
+    public FloatingJoint getMainBodyJoint(){
         return bodyJoint;
     }
 

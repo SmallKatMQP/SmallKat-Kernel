@@ -46,11 +46,12 @@ public class XLLeg extends Appendage implements Leg {
 
     // Constructors
 
-    public XLLeg(String name, Vector3D legPos, Robot robot){
+    public XLLeg(String name, Vector3D legPos, Robot robot ){
         this.name = name;
         this.robot = robot;
         this.legPosition = legPos;
         generateLeg();
+        robot.getJoint("Body").addJoint(getFirstJoint());
     }
 
     // Leg Generating Methods

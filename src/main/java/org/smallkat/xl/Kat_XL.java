@@ -1,5 +1,6 @@
 package org.smallkat.xl;
 
+import org.smallkat.Body;
 import org.smallkat.Leg;
 import us.ihmc.euclid.Axis;
 import us.ihmc.euclid.tuple3D.Vector3D;
@@ -14,7 +15,7 @@ public class Kat_XL extends Robot {
     public static final String ROOBOT_NAME = "SmallKatXL";
 
     //TODO: Make a body interface
-    XLBody body;
+    Body body;
     Leg frontLeftLeg;
     Leg frontRightLeg;
     Leg backLeftLeg;
@@ -40,17 +41,11 @@ public class Kat_XL extends Robot {
         super(ROOBOT_NAME);
 
         body = new XLBody(bodyPos, this);
-        this.addRootJoint(body.getJoint());
+        this.addRootJoint(body.getMainBodyJoint());
         frontLeftLeg = new XLLeg("FrontLeft", frontLeftLegPos, this);
         frontRightLeg = new XLLeg("FrontRight", frontRightLegPos, this);
         backLeftLeg = new XLLeg("BackLeft", backLeftLegPos, this);
         backRightLeg = new XLLeg("BackRight", backRightLegPos, this);
-        // TODO: Add this in the the Legs by passing the body into each Leg object
-        body.getJoint().addJoint(frontLeftLeg.getFirstJoint());
-        body.getJoint().addJoint(frontRightLeg.getFirstJoint());
-        body.getJoint().addJoint(backLeftLeg.getFirstJoint());
-        body.getJoint().addJoint(backRightLeg.getFirstJoint());
-
     }
 
 
