@@ -21,7 +21,7 @@ public class Kat_XL extends Robot {
     Leg backLeftLeg;
     Leg backRightLeg;
 
-    private static final Vector3D bodyPos = new Vector3D(0, 0, 0.5);
+    private static final Vector3D bodyPos = new Vector3D(0, 0, 0.4); //0.26164
     private static final Vector3D frontLeftLegPos = new Vector3D(0.115, 0.03826, 0.0);
     private static final Vector3D frontRightLegPos = new Vector3D(0.115, -0.03826, 0.0);
     private static final Vector3D backLeftLegPos = new Vector3D(-0.115, 0.03826, 0.0);

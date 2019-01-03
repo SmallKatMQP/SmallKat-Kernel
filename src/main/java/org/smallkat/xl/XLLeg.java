@@ -23,6 +23,7 @@ public class XLLeg extends Appendage implements Leg {
 
     public static final String FOOT_LINKNAME = "Foot";
     public static final String FOOT_JOINTNAME = "Ankle";
+    public static final String GROUND_CONTACT_POINT = "GroundContactPoint";
 
     private Vector3D legPosition = new Vector3D(0, 0, 0);
 
@@ -58,7 +59,7 @@ public class XLLeg extends Appendage implements Leg {
     void generateLeg(){
         appendageSections.add(makeTopLeg(false));
         appendageSections.add(makeMidLeg(false));
-        appendageSections.add(makeFoot(true));
+        appendageSections.add(makeFoot(false));
         attachLegs();
     }
 
@@ -129,6 +130,10 @@ public class XLLeg extends Appendage implements Leg {
             linkGraphics.addCoordinateSystem(coordinateLength);
         }
         foot.setLinkGraphics(linkGraphics);
+
+        GroundContactPoint groundContactPoint = new GroundContactPoint(makeName(GROUND_CONTACT_POINT),
+                new Vector3D(0, 0, -footDH.distance), robot);
+        ankle.addGroundContactPoint(groundContactPoint);
 
         return new AppendageSection(ankle, foot);
     }

@@ -10,7 +10,6 @@ import us.ihmc.simulationconstructionset.Link;
 import us.ihmc.simulationconstructionset.Robot;
 
 public class XLBody implements Body {
-    boolean debug = true;
 
     public static final String BODY_NAME = "Body";
 
@@ -27,7 +26,7 @@ public class XLBody implements Body {
 
     public XLBody(Vector3D bodyPos, Robot robot){
         bodyJoint = generateBodyJoint(bodyPos, robot);
-        bodyLink = generatBodyLink();
+        bodyLink = generatBodyLink(false);
 
         bodyJoint.setLink(bodyLink);
     }
@@ -38,7 +37,7 @@ public class XLBody implements Body {
         return joint;
     }
 
-    private Link generatBodyLink(){
+    private Link generatBodyLink(boolean debug){
         Link link = new Link(BODY_NAME);
         link.setMass(BODY_MASS);
         link.setComOffset(new Vector3D(BODY_COM));
