@@ -26,7 +26,7 @@ public class XLBody implements Body {
 
     public XLBody(Vector3D bodyPos, Robot robot){
         bodyJoint = generateBodyJoint(bodyPos, robot);
-        bodyLink = generatBodyLink(false);
+        bodyLink = generateBodyLink(false);
 
         bodyJoint.setLink(bodyLink);
     }
@@ -37,7 +37,7 @@ public class XLBody implements Body {
         return joint;
     }
 
-    private Link generatBodyLink(boolean debug){
+    private Link generateBodyLink(boolean debug){
         Link link = new Link(BODY_NAME);
         link.setMass(BODY_MASS);
         link.setComOffset(new Vector3D(BODY_COM));
