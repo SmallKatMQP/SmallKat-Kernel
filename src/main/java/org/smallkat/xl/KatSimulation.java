@@ -17,9 +17,14 @@ public class KatSimulation {
 
         Kat_XL robot = new Kat_XL();
 
-        GroundContactModel groundModel = new LinearGroundContactModel(robot, 4000, 500, 500, 500, robot.getRobotsYoVariableRegistry());
+        GroundContactModel groundModel = new LinearGroundContactModel(robot, 4000,
+                500, 500, 500, robot.getRobotsYoVariableRegistry());
 
         robot.setGroundContactModel(groundModel);
+
+        XLController controller = new XLController();
+        controller.initialize();
+        robot.setController(controller, 1);
 
         SimulationConstructionSetParameters parameters = new SimulationConstructionSetParameters();
         parameters.setDataBufferSize(32000);
