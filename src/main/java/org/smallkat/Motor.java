@@ -2,19 +2,19 @@ package org.smallkat;
 
 public class Motor {
 
-
+    String name;
 
     double kP = 0;
     double kI = 0;
     double kD = 0;
 
 
-    public Motor(){
-
+    public Motor(String name){
+        this.name = name;
     }
 
     public void setPosition(double pos){
-
+        System.out.println(pos);
     }
 
     public void setVelocity(double vel){
@@ -47,5 +47,9 @@ public class Motor {
 
     public void setkD(double kD) {
         this.kD = kD;
+    }
+
+    public String getName(){
+        return name;
     }
 }
