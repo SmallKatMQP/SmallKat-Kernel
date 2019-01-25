@@ -37,7 +37,7 @@ public class RunKatXL {
 //        sim.setCameraPosition(0, -5.0, 0.6);
 //        sim.setCameraFix(0.0, 0.0, 0.70);
 
-        sim.setSimulateDuration(5);
+//        sim.setSimulateDuration(5);
         sim.setGroundVisible(true);
 //        sim.setGroundAppearance(YoAppearance.EarthTexture());
 

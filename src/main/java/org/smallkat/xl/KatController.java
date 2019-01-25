@@ -21,7 +21,6 @@ public class KatController implements RobotController {
 
         testDouble = new YoDouble("TestDouble", registry);
         testDouble.set(0);
-        robot.moveTestJoint(testDouble.getDoubleValue());
     }
 
     /**
@@ -29,7 +28,7 @@ public class KatController implements RobotController {
      */
     @Override
     public void doControl() {
-        robot.moveTestJoint(testDouble.getDoubleValue());
+//        robot.moveTestJoint(testDouble.getDoubleValue());
     }
 
     /**
@@ -64,7 +63,6 @@ public class KatController implements RobotController {
      */
     @Override
     public String getDescription() {
-        return name
-                ;
+        return name;
     }
 }

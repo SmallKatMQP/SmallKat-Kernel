@@ -28,9 +28,9 @@ public class XLLeg extends Appendage implements Leg {
     private Vector3D legPosition = new Vector3D(0, 0, 0);
 
     private DHParameters topLegRollDH = new DHParameters(0, 0, 0, 0);
-    private DHParameters topLegPitchDH = new DHParameters(0, 0, 0, 0);
-    private DHParameters midLegDH = new DHParameters(0, 0, 0, 0);
-    private DHParameters footDH = new DHParameters(0, 0, 0, 0);
+    private DHParameters topLegPitchDH = new DHParameters(0, 0.092, 0, 0);
+    private DHParameters midLegDH = new DHParameters(0, 0.075, 0, 0);
+    private DHParameters footDH = new DHParameters(0, 0.09464, 0, 0);
 
     // Masses
     private double topLegMass = 0.33;
@@ -84,14 +84,14 @@ public class XLLeg extends Appendage implements Leg {
             linkGraphics.addCoordinateSystem(coordinateLength);
         }
         linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
-        linkGraphics.addCylinder(-topLegPitchDH.distance, DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
+        linkGraphics.addCylinder(-topLegPitchDH.getR(), DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
         topLeg.setLinkGraphics(linkGraphics);
 
         return new AppendageSection(shoulder, topLeg);
     }
 
     private AppendageSection makeMidLeg(boolean debug){
-        Joint knee = new PinJoint(makeName(MIDLEG_JOINTNAME), new Vector3D(0, 0, -topLegPitchDH.distance), robot, Axis.Y);
+        Joint knee = new PinJoint(makeName(MIDLEG_JOINTNAME), new Vector3D(0, 0, -topLegPitchDH.getR()), robot, Axis.Y);
         Link midLeg = new Link(makeName(MIDLEG_LINKNAME));
         knee.setLink(midLeg);
 
@@ -103,14 +103,14 @@ public class XLLeg extends Appendage implements Leg {
             linkGraphics.addCoordinateSystem(coordinateLength);
         }
         linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
-        linkGraphics.addCylinder(-midLegDH.distance, DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
+        linkGraphics.addCylinder(-midLegDH.getR(), DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
         midLeg.setLinkGraphics(linkGraphics);
 
         return new AppendageSection(knee, midLeg);
     }
 
     private AppendageSection makeFoot(boolean debug){
-        Joint ankle = new PinJoint(makeName(FOOT_JOINTNAME), new Vector3D(0, 0, -midLegDH.distance), robot, Axis.Y);
+        Joint ankle = new PinJoint(makeName(FOOT_JOINTNAME), new Vector3D(0, 0, -midLegDH.getR()), robot, Axis.Y);
         Link foot = new Link(makeName(FOOT_LINKNAME));
         ankle.setLink(foot);
 
@@ -123,8 +123,8 @@ public class XLLeg extends Appendage implements Leg {
         if (debug){
             linkGraphics.addCoordinateSystem(coordinateLength);
         }
-        linkGraphics.addCylinder(-midLegDH.distance, DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
-        linkGraphics.translate(0, 0, -footDH.distance);
+        linkGraphics.addCylinder(-midLegDH.getR(), DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
+        linkGraphics.translate(0, 0, -footDH.getR());
         linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
         if (debug){
             linkGraphics.addCoordinateSystem(coordinateLength);
@@ -132,7 +132,7 @@ public class XLLeg extends Appendage implements Leg {
         foot.setLinkGraphics(linkGraphics);
 
         GroundContactPoint groundContactPoint = new GroundContactPoint(makeName(GROUND_CONTACT_POINT),
-                new Vector3D(0, 0, -footDH.distance), robot);
+                new Vector3D(0, 0, -footDH.getR()), robot);
         ankle.addGroundContactPoint(groundContactPoint);
 
         return new AppendageSection(ankle, foot);
