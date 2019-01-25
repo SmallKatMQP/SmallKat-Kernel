@@ -15,6 +15,7 @@ public interface Leg {
     double coordinateLength = 0.2;
 
     Joint getFirstJoint();
+    Joint getAnkleJoint();
 
 
 

@@ -12,7 +12,7 @@ import us.ihmc.simulationconstructionset.robotdefinition.RobotDefinitionFixedFra
 import us.ihmc.yoVariables.variable.YoDouble;
 
 public class Kat_XL extends Robot {
-    public static final String ROOBOT_NAME = "SmallKatXL";
+    public static final String ROOBOT_NAME = "RunKatXL";
 
     //TODO: Make a body interface
     Body body;
@@ -46,6 +46,10 @@ public class Kat_XL extends Robot {
         frontRightLeg = new XLLeg("FrontRight", frontRightLegPos, this);
         backLeftLeg = new XLLeg("BackLeft", backLeftLegPos, this);
         backRightLeg = new XLLeg("BackRight", backRightLegPos, this);
+    }
+
+    public void moveTestJoint(double torque){
+        ((PinJoint)this.frontRightLeg.getAnkleJoint()).getTauYoVariable().set(torque);
     }
 
 

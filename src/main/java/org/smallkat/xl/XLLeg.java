@@ -28,9 +28,9 @@ public class XLLeg extends Appendage implements Leg {
     private Vector3D legPosition = new Vector3D(0, 0, 0);
 
     private DHParameters topLegRollDH = new DHParameters(0, 0, 0, 0);
-    private DHParameters topLegPitchDH = new DHParameters(0.092, 0, 0, 0);
-    private DHParameters midLegDH = new DHParameters(0.075, 0, 0, 0);
-    private DHParameters footDH = new DHParameters(0.09464, 0, 0, 0);
+    private DHParameters topLegPitchDH = new DHParameters(0, 0, 0, 0);
+    private DHParameters midLegDH = new DHParameters(0, 0, 0, 0);
+    private DHParameters footDH = new DHParameters(0, 0, 0, 0);
 
     // Masses
     private double topLegMass = 0.33;
@@ -143,6 +143,10 @@ public class XLLeg extends Appendage implements Leg {
 
     public Joint getFirstJoint(){
         return appendageSections.get(0).getJoint();
+    }
+
+    public Joint getAnkleJoint(){
+        return appendageSections.get(2).getJoint();
     }
 
     public ArrayList<AppendageSection> getAppendageSections(){
