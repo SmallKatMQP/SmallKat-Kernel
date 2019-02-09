@@ -1,5 +1,10 @@
 package org.smallkat.xl;
 
+import us.ihmc.commonWalkingControlModules.controllerCore.WholeBodyControllerCore;
+import us.ihmc.commonWalkingControlModules.controllerCore.WholeBodyControllerCoreMode;
+import us.ihmc.commonWalkingControlModules.controllerCore.command.ControllerCoreCommand;
+import us.ihmc.graphicsDescription.yoGraphics.YoGraphicsListRegistry;
+import us.ihmc.robotics.screwTheory.RigidBody;
 import us.ihmc.simulationconstructionset.Robot;
 import us.ihmc.simulationconstructionset.util.RobotController;
 import us.ihmc.yoVariables.registry.YoVariableRegistry;
@@ -9,18 +14,35 @@ public class KatController implements RobotController {
 
     private String name;
     private YoVariableRegistry registry;
+    private final YoDouble time;
+
     private Kat_XL robot;
+    private final WholeBodyControllerCore bodyController;
+    private final ControllerCoreCommand controllerCoreCommand =
+            new ControllerCoreCommand(WholeBodyControllerCoreMode.INVERSE_DYNAMICS);
+    private final RigidBody elevator;
 
     private YoDouble testDouble;
 
 
-    public KatController(String name, Kat_XL robot){
+    public KatController(String name, Kat_XL robot, double controlDT, double gravityZ, YoGraphicsListRegistry graphicsListRegistry){
         this.name = name;
         registry = new YoVariableRegistry(name);
         this.robot = robot;
+        time = this.robot.getYoTime();
 
-        testDouble = new YoDouble("TestDouble", registry);
-        testDouble.set(0);
+        elevator = this.robot.getElevator();
+        bodyController = createBodyControllerCore(controlDT, gravityZ, graphicsListRegistry);
+
+
+
+//        testDouble = new YoDouble("TestDouble", registry);
+//        testDouble.set(0);
+    }
+
+    private WholeBodyControllerCore createBodyControllerCore(double controlDT, double gravity, YoGraphicsListRegistry yoGraphicsListRegistry){
+
+        return null;
     }
 
     /**
