@@ -1,5 +1,6 @@
 package org.smallkat.xl;
 
+import us.ihmc.graphicsDescription.yoGraphics.YoGraphicsListRegistry;
 import us.ihmc.simulationconstructionset.GroundContactModel;
 import us.ihmc.simulationconstructionset.Robot;
 import us.ihmc.simulationconstructionset.SimulationConstructionSet;
@@ -8,12 +9,16 @@ import us.ihmc.simulationconstructionset.util.LinearGroundContactModel;
 
 public class RunKatXL {
 
+    double gravityMag = 9.81;
+    double controllerDT = 1.0e-2;
+    double simulatedDT = 4.0e-4;
+    YoGraphicsListRegistry yoGraphicsListRegistry = new YoGraphicsListRegistry();
 
 
     RunKatXL(String[] args){
 
         Kat_XL robot = new Kat_XL();
-        robot.setController(new KatController("KatController", robot));
+        robot.setController(new KatController("KatController", robot, controllerDT, gravityMag, yoGraphicsListRegistry));
 
         runSim(robot);
 

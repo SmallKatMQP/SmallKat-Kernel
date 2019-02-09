@@ -1,5 +1,6 @@
 package org.smallkat.xl;
 
+import org.smallkat.Kat;
 import us.ihmc.commonWalkingControlModules.controllerCore.WholeBodyControllerCore;
 import us.ihmc.commonWalkingControlModules.controllerCore.WholeBodyControllerCoreMode;
 import us.ihmc.commonWalkingControlModules.controllerCore.command.ControllerCoreCommand;
@@ -17,10 +18,10 @@ public class KatController implements RobotController {
     private final YoDouble time;
 
     private Kat_XL robot;
-    private final WholeBodyControllerCore bodyController;
-    private final ControllerCoreCommand controllerCoreCommand =
-            new ControllerCoreCommand(WholeBodyControllerCoreMode.INVERSE_DYNAMICS);
-    private final RigidBody elevator;
+//    private final WholeBodyControllerCore bodyController;
+//    private final ControllerCoreCommaamand controllerCoreCommand =
+//            new ControllerCoreCommand(WholeBodyControllerCoreMode.INVERSE_DYNAMICS);
+//    private final RigidBody elevator;
 
     private YoDouble testDouble;
 
@@ -31,8 +32,10 @@ public class KatController implements RobotController {
         this.robot = robot;
         time = this.robot.getYoTime();
 
-        elevator = this.robot.getElevator();
-        bodyController = createBodyControllerCore(controlDT, gravityZ, graphicsListRegistry);
+        Kat kat = new Kat();
+
+//        elevator = this.robot.getElevator();
+//        bodyController = createBodyControllerCore(controlDT, gravityZ, graphicsListRegistry);
 
 
 

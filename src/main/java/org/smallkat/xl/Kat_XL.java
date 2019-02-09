@@ -12,7 +12,7 @@ import us.ihmc.simulationconstructionset.robotdefinition.RobotDefinitionFixedFra
 import us.ihmc.yoVariables.variable.YoDouble;
 
 public class Kat_XL extends Robot {
-    public static final String ROOBOT_NAME = "RunKatXL";
+    public static final String ROOBOT_NAME = "KatXL";
 
     //TODO: Make a body interface
     Body body;

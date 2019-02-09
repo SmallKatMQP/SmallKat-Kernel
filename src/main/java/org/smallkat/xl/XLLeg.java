@@ -63,6 +63,8 @@ public class XLLeg extends Appendage implements Leg {
         attachLegs();
     }
 
+
+
     void attachLegs(){
         for(int i = 1; i < appendageSections.size(); i++){
             appendageSections.get(i-1).getJoint().addJoint(appendageSections.get(i).getJoint());
