@@ -7,6 +7,7 @@ import org.smallkat.Leg;
 import us.ihmc.euclid.Axis;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.graphicsDescription.Graphics3DObject;
+import us.ihmc.robotics.robotSide.RobotQuadrant;
 import us.ihmc.simulationconstructionset.*;
 
 import java.util.ArrayList;
@@ -149,6 +150,14 @@ public class XLLeg extends Appendage implements Leg {
 
     public Joint getAnkleJoint(){
         return appendageSections.get(2).getJoint();
+    }
+
+    /**
+     * Returns which corner the leg is positioned at
+     * @return {@code RobotQuadrant} corner of the leg
+     */
+    public RobotQuadrant getQuadrant(){
+        return null;
     }
 
     public ArrayList<AppendageSection> getAppendageSections(){

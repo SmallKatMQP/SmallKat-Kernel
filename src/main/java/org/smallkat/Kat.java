@@ -7,6 +7,7 @@ import us.ihmc.robotics.referenceFrames.CenterOfMassReferenceFrame;
 import us.ihmc.robotics.robotSide.RobotQuadrant;
 import us.ihmc.robotics.robotSide.RobotSide;
 import us.ihmc.robotics.robotSide.SideDependentList;
+import us.ihmc.robotics.screwTheory.RigidBody;
 import us.ihmc.sensorProcessing.simulatedSensors.InverseDynamicsJointsFromSCSRobotGenerator;
 import us.ihmc.sensorProcessing.simulatedSensors.SCSToInverseDynamicsJointMap;
 
@@ -36,16 +37,14 @@ public class Kat {
 
         comFrame = new CenterOfMassReferenceFrame("centerOfMassFrame", WORLD_FRAME, inverseDynamicsRobot.getElevator());
 
-        double footWidth;
-
-        for (RobotQuadrant robotSide: RobotQuadrant.values){
 
 
 
-
-        }
     }
 
 
+    public RigidBody getFoot(RobotQuadrant side){
+        return jointMap.getRigidBody(robot.getFoot)
+    }
 
 }

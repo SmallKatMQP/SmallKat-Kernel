@@ -7,25 +7,30 @@ import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.euclid.tuple3D.interfaces.Vector3DReadOnly;
 import us.ihmc.graphicsDescription.Graphics3DObject;
 import us.ihmc.graphicsDescription.appearance.YoAppearance;
+import us.ihmc.robotics.robotSide.RobotQuadrant;
+import us.ihmc.robotics.robotSide.RobotSide;
+import us.ihmc.robotics.screwTheory.RigidBody;
 import us.ihmc.simulationconstructionset.*;
 import us.ihmc.simulationconstructionset.robotdefinition.RobotDefinitionFixedFrame;
 import us.ihmc.yoVariables.variable.YoDouble;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Kat_XL extends Robot {
     public static final String ROOBOT_NAME = "KatXL";
 
     //TODO: Make a body interface
     Body body;
-    Leg frontLeftLeg;
-    Leg frontRightLeg;
-    Leg backLeftLeg;
-    Leg backRightLeg;
 
     private static final Vector3D bodyPos = new Vector3D(0, 0, 0.4); //0.26164
     private static final Vector3D frontLeftLegPos = new Vector3D(0.115, 0.03826, 0.0);
     private static final Vector3D frontRightLegPos = new Vector3D(0.115, -0.03826, 0.0);
-    private static final Vector3D backLeftLegPos = new Vector3D(-0.115, 0.03826, 0.0);
-    private static final Vector3D backRightLegPos = new Vector3D(-0.115, -0.03826, 0.0);
+    private static final Vector3D hindLeftLegPos = new Vector3D(-0.115, 0.03826, 0.0);
+    private static final Vector3D hindRightLegPos = new Vector3D(-0.115, -0.03826, 0.0);
+
+    private Map<RobotQuadrant, XLLeg> legMap = new HashMap<>();
+    private Map<RobotQuadrant, Vector3D> legPositionMap = new HashMap<>();
 
 
     public Kat_XL(RobotDefinitionFixedFrame definition, String name) {
@@ -42,16 +47,23 @@ public class Kat_XL extends Robot {
 
         body = new XLBody(bodyPos, this);
         this.addRootJoint(body.getMainBodyJoint());
-        frontLeftLeg = new XLLeg("FrontLeft", frontLeftLegPos, this);
-        frontRightLeg = new XLLeg("FrontRight", frontRightLegPos, this);
-        backLeftLeg = new XLLeg("BackLeft", backLeftLegPos, this);
-        backRightLeg = new XLLeg("BackRight", backRightLegPos, this);
+
+        setLegPositions();
+
+        for(RobotQuadrant side: RobotQuadrant.values){
+            legMap.put(side, new XLLeg(side.getCamelCaseName(), legPositionMap.get(side), this));
+        }
     }
 
-    public void moveTestJoint(double torque){
-        ((PinJoint)this.frontRightLeg.getAnkleJoint()).getTauYoVariable().set(torque);
+
+    /**
+     * Places leg positions into the
+     */
+    private void setLegPositions(){
+        legPositionMap.put(RobotQuadrant.FRONT_LEFT, frontLeftLegPos);
+        legPositionMap.put(RobotQuadrant.FRONT_RIGHT, frontRightLegPos);
+        legPositionMap.put(RobotQuadrant.HIND_LEFT, hindLeftLegPos);
+        legPositionMap.put(RobotQuadrant.HIND_RIGHT, hindRightLegPos);
     }
-
-
 
 }

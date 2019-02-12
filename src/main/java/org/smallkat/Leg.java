@@ -2,6 +2,7 @@ package org.smallkat;
 
 import us.ihmc.graphicsDescription.appearance.AppearanceDefinition;
 import us.ihmc.graphicsDescription.appearance.YoAppearance;
+import us.ihmc.robotics.robotSide.RobotQuadrant;
 import us.ihmc.simulationconstructionset.Joint;
 
 public interface Leg {
@@ -13,6 +14,8 @@ public interface Leg {
     double DEFAULT_LINK_RADIUS = 0.01;
 
     double coordinateLength = 0.2;
+
+    RobotQuadrant getQuadrant();
 
     Joint getFirstJoint();
     Joint getAnkleJoint();
