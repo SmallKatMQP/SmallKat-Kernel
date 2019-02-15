@@ -17,7 +17,7 @@ public class RunKatXL {
 
     RunKatXL(String[] args){
 
-        Kat_XL robot = new Kat_XL();
+        KatXLRobot robot = new KatXLRobot();
         robot.setController(new KatController("KatController", robot, controllerDT, gravityMag, yoGraphicsListRegistry));
 
         runSim(robot);

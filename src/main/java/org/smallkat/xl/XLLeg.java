@@ -5,6 +5,7 @@ import org.smallkat.customtypes.AppendageSection;
 import org.smallkat.customtypes.DHParameters;
 import org.smallkat.Leg;
 import us.ihmc.euclid.Axis;
+import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.graphicsDescription.Graphics3DObject;
 import us.ihmc.robotics.robotSide.RobotQuadrant;
@@ -59,8 +60,8 @@ public class XLLeg extends Appendage implements Leg {
     // Leg Generating Methods
     void generateLeg(){
         appendageSections.add(makeTopLeg(false));
-        appendageSections.add(makeMidLeg(false));
-        appendageSections.add(makeFoot(false));
+        appendageSections.add(makeMidLeg(true));
+        appendageSections.add(makeFoot(true));
         attachLegs();
     }
 
@@ -137,6 +138,8 @@ public class XLLeg extends Appendage implements Leg {
         GroundContactPoint groundContactPoint = new GroundContactPoint(makeName(GROUND_CONTACT_POINT),
                 new Vector3D(0, 0, -footDH.getR()), robot);
         ankle.addGroundContactPoint(groundContactPoint);
+
+//        ReferenceFrame footFrame =
 
         return new AppendageSection(ankle, foot);
     }

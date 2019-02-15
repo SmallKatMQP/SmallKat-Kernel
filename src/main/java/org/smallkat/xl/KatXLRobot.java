@@ -17,7 +17,7 @@ import us.ihmc.yoVariables.variable.YoDouble;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Kat_XL extends Robot {
+public class KatXLRobot extends Robot {
     public static final String ROOBOT_NAME = "KatXL";
 
     //TODO: Make a body interface
@@ -33,7 +33,7 @@ public class Kat_XL extends Robot {
     private Map<RobotQuadrant, Vector3D> legPositionMap = new HashMap<>();
 
 
-    public Kat_XL(RobotDefinitionFixedFrame definition, String name) {
+    public KatXLRobot(RobotDefinitionFixedFrame definition, String name) {
         super(definition, name);
     }
 
@@ -42,7 +42,7 @@ public class Kat_XL extends Robot {
      * Joints, each Joint having an associated Link.
      *
      */
-    public Kat_XL() {
+    public KatXLRobot() {
         super(ROOBOT_NAME);
 
         body = new XLBody(bodyPos, this);
@@ -55,6 +55,9 @@ public class Kat_XL extends Robot {
         }
     }
 
+    public Joint getFoot(RobotQuadrant side){
+        return legMap.get(side).getAnkleJoint();
+    }
 
     /**
      * Places leg positions into the

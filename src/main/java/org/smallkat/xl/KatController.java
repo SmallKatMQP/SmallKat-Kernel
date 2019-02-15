@@ -2,11 +2,7 @@ package org.smallkat.xl;
 
 import org.smallkat.Kat;
 import us.ihmc.commonWalkingControlModules.controllerCore.WholeBodyControllerCore;
-import us.ihmc.commonWalkingControlModules.controllerCore.WholeBodyControllerCoreMode;
-import us.ihmc.commonWalkingControlModules.controllerCore.command.ControllerCoreCommand;
 import us.ihmc.graphicsDescription.yoGraphics.YoGraphicsListRegistry;
-import us.ihmc.robotics.screwTheory.RigidBody;
-import us.ihmc.simulationconstructionset.Robot;
 import us.ihmc.simulationconstructionset.util.RobotController;
 import us.ihmc.yoVariables.registry.YoVariableRegistry;
 import us.ihmc.yoVariables.variable.YoDouble;
@@ -17,7 +13,7 @@ public class KatController implements RobotController {
     private YoVariableRegistry registry;
     private final YoDouble time;
 
-    private Kat_XL robot;
+    private KatXLRobot robot;
 //    private final WholeBodyControllerCore bodyController;
 //    private final ControllerCoreCommaamand controllerCoreCommand =
 //            new ControllerCoreCommand(WholeBodyControllerCoreMode.INVERSE_DYNAMICS);
@@ -26,7 +22,7 @@ public class KatController implements RobotController {
     private YoDouble testDouble;
 
 
-    public KatController(String name, Kat_XL robot, double controlDT, double gravityZ, YoGraphicsListRegistry graphicsListRegistry){
+    public KatController(String name, KatXLRobot robot, double controlDT, double gravityZ, YoGraphicsListRegistry graphicsListRegistry){
         this.name = name;
         registry = new YoVariableRegistry(name);
         this.robot = robot;
