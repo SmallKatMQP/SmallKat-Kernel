@@ -5,32 +5,22 @@ import org.smallkat.customtypes.AppendageSection;
 import org.smallkat.customtypes.DHParameters;
 import org.smallkat.Leg;
 import us.ihmc.euclid.Axis;
-import us.ihmc.euclid.referenceFrame.ReferenceFrame;
 import us.ihmc.euclid.tuple3D.Vector3D;
 import us.ihmc.graphicsDescription.Graphics3DObject;
 import us.ihmc.robotics.robotSide.RobotQuadrant;
 import us.ihmc.simulationconstructionset.*;
+import static org.smallkat.xl.KatXL.*;
 
 import java.util.ArrayList;
 
 public class XLLeg extends Appendage implements Leg {
 
-    // Leg Names
-    public static final String TOPLEG_LINKNAME = "TopLeg";
-    public static final String TOPLEG_PITCH_JOINTNAME = "ShoulderPitch";
-    public static final String TOPLEG_ROLL_JOINTNAME = "ShoulderRoll";
 
-    public static final String MIDLEG_LINKNAME = "MidLeg";
-    public static final String MIDLEG_JOINTNAME = "Knee";
-
-    public static final String FOOT_LINKNAME = "Foot";
-    public static final String FOOT_JOINTNAME = "Ankle";
-    public static final String GROUND_CONTACT_POINT = "GroundContactPoint";
 
     private Vector3D legPosition = new Vector3D(0, 0, 0);
 
-    private DHParameters topLegRollDH = new DHParameters(0, 0, 0, 0);
-    private DHParameters topLegPitchDH = new DHParameters(0, 0.092, 0, 0);
+    private DHParameters shoulderDH = new DHParameters(0, 0, 0, 0);
+    private DHParameters topLegDH = new DHParameters(0, 0.092, 0, 0);
     private DHParameters midLegDH = new DHParameters(0, 0.075, 0, 0);
     private DHParameters footDH = new DHParameters(0, 0.09464, 0, 0);
 
@@ -45,14 +35,30 @@ public class XLLeg extends Appendage implements Leg {
     private Vector3D footInertia = new Vector3D(0.019 * footMass, 0.019 * footMass, 0.017 * footMass);
 
     private String name;
-    private Robot robot;
+    private KatXLRobot robot;
 
     // Constructors
 
-    public XLLeg(String name, Vector3D legPos, Robot robot ){
+    public XLLeg(String name, Vector3D legPos, KatXLRobot robot){
         this.name = name;
         this.robot = robot;
         this.legPosition = legPos;
+
+        generateLeg();
+        robot.getJoint("Body").addJoint(getFirstJoint());
+    }
+
+    public XLLeg(String name, Vector3D legPos, KatXLRobot robot,
+                 DHParameters shoulder, DHParameters topleg, DHParameters midleg, DHParameters foot){
+        this.name = name;
+        this.robot = robot;
+        this.legPosition = legPos;
+
+        shoulderDH = shoulder;
+        topLegDH = topleg;
+        midLegDH = midleg;
+        footDH = foot;
+
         generateLeg();
         robot.getJoint("Body").addJoint(getFirstJoint());
     }
@@ -60,8 +66,8 @@ public class XLLeg extends Appendage implements Leg {
     // Leg Generating Methods
     void generateLeg(){
         appendageSections.add(makeTopLeg(false));
-        appendageSections.add(makeMidLeg(true));
-        appendageSections.add(makeFoot(true));
+        appendageSections.add(makeMidLeg(false));
+        appendageSections.add(makeFoot(false));
         attachLegs();
     }
 
@@ -75,10 +81,11 @@ public class XLLeg extends Appendage implements Leg {
 
     private AppendageSection makeTopLeg(boolean debug){
 
-        Joint shoulder = new UniversalJoint(makeName(TOPLEG_PITCH_JOINTNAME), makeName(TOPLEG_ROLL_JOINTNAME),
+        Joint shoulder = new UniversalJoint(makeName(TOPLEG_ROLL_JOINTNAME), makeName(TOPLEG_PITCH_JOINTNAME),
                 legPosition, robot, Axis.X, Axis.Y);
         Link topLeg = new Link(makeName(TOPLEG_LINKNAME));
         shoulder.setLink(topLeg);
+
 
         topLeg.setMass(topLegMass);
         topLeg.setMomentOfInertia(topLegInertia.getX(), topLegInertia.getY(), topLegInertia.getZ());
@@ -88,16 +95,17 @@ public class XLLeg extends Appendage implements Leg {
             linkGraphics.addCoordinateSystem(coordinateLength);
         }
         linkGraphics.addSphere(DEFAULT_JOINT_RADIUS, DEFAULT_JOINT_APPEARANCE);
-        linkGraphics.addCylinder(-topLegPitchDH.getR(), DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
+        linkGraphics.addCylinder(-topLegDH.getR(), DEFAULT_LINK_RADIUS, DEFAULT_LINK_APPEARANCE);
         topLeg.setLinkGraphics(linkGraphics);
 
         return new AppendageSection(shoulder, topLeg);
     }
 
     private AppendageSection makeMidLeg(boolean debug){
-        Joint knee = new PinJoint(makeName(MIDLEG_JOINTNAME), new Vector3D(0, 0, -topLegPitchDH.getR()), robot, Axis.Y);
+        Joint knee = new PinJoint(makeName(MIDLEG_JOINTNAME), new Vector3D(0, 0, -topLegDH.getR()), robot, Axis.Y);
         Link midLeg = new Link(makeName(MIDLEG_LINKNAME));
         knee.setLink(midLeg);
+        ((PinJoint) knee).setQ(midLegDH.getTheta());
 
         midLeg.setMass(midLegMass);
         midLeg.setMomentOfInertia(midLegInertia.getX(), midLegInertia.getY(), midLegInertia.getZ());
@@ -117,6 +125,7 @@ public class XLLeg extends Appendage implements Leg {
         Joint ankle = new PinJoint(makeName(FOOT_JOINTNAME), new Vector3D(0, 0, -midLegDH.getR()), robot, Axis.Y);
         Link foot = new Link(makeName(FOOT_LINKNAME));
         ankle.setLink(foot);
+        ((PinJoint) ankle).setQ(footDH.getTheta());
 
         foot.setMass(footMass);
         foot.setMomentOfInertia(footInertia.getX(), footInertia.getY(), footInertia.getZ());
@@ -167,20 +176,20 @@ public class XLLeg extends Appendage implements Leg {
         return super.getAppendageSections();
     }
 
-    public DHParameters getTopLegRollDH() {
-        return topLegRollDH;
+    public DHParameters getShoulderDH() {
+        return shoulderDH;
     }
 
-    public void setTopLegRollDH(DHParameters topLegRollDH) {
-        this.topLegRollDH = topLegRollDH;
+    public void setShoulderDH(DHParameters shoulderDH) {
+        this.shoulderDH = shoulderDH;
     }
 
-    public DHParameters getTopLegPitchDH() {
-        return topLegPitchDH;
+    public DHParameters getTopLegDH() {
+        return topLegDH;
     }
 
-    public void setTopLegPitchDH(DHParameters topLegPitchDH) {
-        this.topLegPitchDH = topLegPitchDH;
+    public void setTopLegDH(DHParameters topLegDH) {
+        this.topLegDH = topLegDH;
     }
 
     public DHParameters getMidLegDH() {

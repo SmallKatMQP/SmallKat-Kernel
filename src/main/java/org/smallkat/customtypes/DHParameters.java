@@ -26,6 +26,7 @@ public class DHParameters {
     }
 
     public double getTheta(){
-        return theta;
+        return Math.toRadians(theta);
     }
+
 }

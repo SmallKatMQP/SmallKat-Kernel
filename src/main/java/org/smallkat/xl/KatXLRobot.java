@@ -2,71 +2,51 @@ package org.smallkat.xl;
 
 import org.smallkat.Body;
 import org.smallkat.Leg;
-import us.ihmc.euclid.Axis;
-import us.ihmc.euclid.tuple3D.Vector3D;
-import us.ihmc.euclid.tuple3D.interfaces.Vector3DReadOnly;
-import us.ihmc.graphicsDescription.Graphics3DObject;
-import us.ihmc.graphicsDescription.appearance.YoAppearance;
 import us.ihmc.robotics.robotSide.RobotQuadrant;
-import us.ihmc.robotics.robotSide.RobotSide;
-import us.ihmc.robotics.screwTheory.RigidBody;
 import us.ihmc.simulationconstructionset.*;
 import us.ihmc.simulationconstructionset.robotdefinition.RobotDefinitionFixedFrame;
-import us.ihmc.yoVariables.variable.YoDouble;
+import static org.smallkat.xl.KatXL.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class KatXLRobot extends Robot {
     public static final String ROOBOT_NAME = "KatXL";
 
-    //TODO: Make a body interface
-    Body body;
+    private Body body;
 
-    private static final Vector3D bodyPos = new Vector3D(0, 0, 0.4); //0.26164
-    private static final Vector3D frontLeftLegPos = new Vector3D(0.115, 0.03826, 0.0);
-    private static final Vector3D frontRightLegPos = new Vector3D(0.115, -0.03826, 0.0);
-    private static final Vector3D hindLeftLegPos = new Vector3D(-0.115, 0.03826, 0.0);
-    private static final Vector3D hindRightLegPos = new Vector3D(-0.115, -0.03826, 0.0);
-
-    private Map<RobotQuadrant, XLLeg> legMap = new HashMap<>();
-    private Map<RobotQuadrant, Vector3D> legPositionMap = new HashMap<>();
+    private Leg frLeg;
+    private Leg flLeg;
+    private Leg hrLeg;
+    private Leg hlLeg;
 
 
     public KatXLRobot(RobotDefinitionFixedFrame definition, String name) {
         super(definition, name);
     }
 
-    /**
-     * Creates a Robot with the specified name. A Robot is a forest of trees of
-     * Joints, each Joint having an associated Link.
-     *
-     */
+
     public KatXLRobot() {
         super(ROOBOT_NAME);
 
-        body = new XLBody(bodyPos, this);
+        body = new XLBody(BODY_POSITION, this);
         this.addRootJoint(body.getMainBodyJoint());
 
-        setLegPositions();
+        frLeg = new XLLeg("FR", FR_POSITION, this,
+                FR_SHOULDER_DH, FR_TOPLEG_DH, FR_MIDLEG_DH, FR_FOOT_DH);
+        flLeg = new XLLeg("FL", FL_POSITION, this,
+                FL_SHOULDER_DH, FL_TOPLEG_DH, FL_MIDLEG_DH, FL_FOOT_DH);
+        hrLeg = new XLLeg("HR", HR_POSITION, this,
+                HR_SHOULDER_DH, HR_TOPLEG_DH, HR_MIDLEG_DH, HR_FOOT_DH);
+        hlLeg = new XLLeg("HL", HL_POSITION, this,
+                HL_SHOULDER_DH, HL_TOPLEG_DH, HL_MIDLEG_DH, HL_FOOT_DH);
 
-        for(RobotQuadrant side: RobotQuadrant.values){
-            legMap.put(side, new XLLeg(side.getCamelCaseName(), legPositionMap.get(side), this));
-        }
+    }
+
+    public Joint getBody(){
+        return body.getMainBodyJoint();
     }
 
     public Joint getFoot(RobotQuadrant side){
-        return legMap.get(side).getAnkleJoint();
-    }
-
-    /**
-     * Places leg positions into the
-     */
-    private void setLegPositions(){
-        legPositionMap.put(RobotQuadrant.FRONT_LEFT, frontLeftLegPos);
-        legPositionMap.put(RobotQuadrant.FRONT_RIGHT, frontRightLegPos);
-        legPositionMap.put(RobotQuadrant.HIND_LEFT, hindLeftLegPos);
-        legPositionMap.put(RobotQuadrant.HIND_RIGHT, hindRightLegPos);
+        return null;
     }
 
 }
